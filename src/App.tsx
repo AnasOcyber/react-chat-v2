@@ -1,41 +1,30 @@
 import { useEffect, useState } from "react";
 import socket from "./services/socket";
 import MessageBox from "./components/MessageBox";
+import MessageDelivery from "./components/MessageDelivery";
+import ActiveUsersList from "./components/ActiveUsersList";
+
+export interface Message {
+  clientId: string;
+  message: string;
+}
 
 const App = () => {
-  const [messageSent, setMessageSent] = useState("");
-  const [joined, setJoined] = useState(null);
-  const [left, setLeft] = useState(null);
+  const [messageSent, setMessageSent] = useState<Message>();
 
   useEffect(() => {
-    socket.on("reply", (payload) => setMessageSent(payload));
+    socket.on("reply", (delivery) => setMessageSent(delivery));
 
     return () => {
       socket.off("reply");
     };
   }, []);
 
-  useEffect(() => {
-    socket.on("user-joined", (payload) => setJoined(payload));
-
-    return () => {
-      socket.off("user-joined");
-    };
-  }, []);
-
-  useEffect(() => {
-    socket.on("user-left", (payload) => setLeft(payload));
-
-    return () => {
-      socket.off("user-left");
-    };
-  }, []);
   return (
     <>
       <MessageBox />
-      <div>{messageSent}</div>
-      <div>{joined}</div>
-      <div>{left}</div>
+      <MessageDelivery message={messageSent} />
+      <ActiveUsersList />
     </>
   );
 };

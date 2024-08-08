@@ -1,18 +1,11 @@
 import { FormEvent, useEffect, useState } from "react";
 import socket from "../services/socket";
 
-interface Message {
-  clientId: string;
-  message: string;
-}
-
 const MessageBox = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    socket.on("message", (newMessage: Message) => {
-      console.log(newMessage);
-    });
+    socket.on("reply", (payload) => console.log(payload));
 
     return () => {
       socket.off("message");

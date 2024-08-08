@@ -3,6 +3,7 @@ import socket from "./services/socket";
 import MessageBox from "./components/MessageBox";
 import MessageDelivery from "./components/MessageDelivery";
 import ActiveUsersList from "./components/ActiveUsersList";
+import MessageList from "./components/MessageList";
 
 export interface Message {
   clientId: string;
@@ -22,6 +23,7 @@ const App = () => {
 
   return (
     <>
+      <MessageList />
       <MessageBox />
       <MessageDelivery message={messageSent} />
       <ActiveUsersList />

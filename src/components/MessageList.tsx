@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import socket from "../services/socket";
 
 interface Message {
   message: string;
@@ -19,6 +20,16 @@ const MessageList = () => {
 
     return () => {
       controller.abort();
+    };
+  }, []);
+
+  useEffect(() => {
+    socket.on("reply", (newMessage: Message) => {
+      messages ? setMessages([...messages, newMessage]) : [newMessage];
+    });
+
+    return () => {
+      socket.off("reply");
     };
   }, [messages]);
 

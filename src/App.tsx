@@ -25,7 +25,7 @@ const App = () => {
     <>
       <MessageList />
       <MessageBox />
-      <MessageDelivery message={messageSent} />
+      <MessageDelivery clientId={messageSent?.clientId} message={messageSent} />
       <ActiveUsersList />
     </>
   );
